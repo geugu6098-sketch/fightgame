@@ -33,6 +33,8 @@ def handle_events():
         clicked_index = menu_ui.clicked_button_index(event, len(_menu_items))
         if clicked_index == 0:
             return "game"
+        if clicked_index == 1:
+            return "options"
         if clicked_index == len(_menu_items) - 1:
             return "quit"
     return None

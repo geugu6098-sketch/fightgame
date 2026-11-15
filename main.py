@@ -3,12 +3,14 @@ from pico2d import close_canvas, open_canvas, update_canvas
 import game_config
 import game_mode
 import opening_mode
+import option_mode
 import select_mode
 
 
 _next_modes = {
     "select": select_mode,
     "game": game_mode,
+    "options": option_mode,
 }
 
 
