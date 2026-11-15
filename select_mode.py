@@ -2,9 +2,9 @@ import os
 from pathlib import Path
 
 from pico2d import (
-    SDL_KEYDOWN,
+    SDL_BUTTON_LEFT,
+    SDL_MOUSEBUTTONDOWN,
     SDL_QUIT,
-    SDLK_ESCAPE,
     get_events,
     load_font,
     load_image,
@@ -28,6 +28,7 @@ _button_height = 126
 _button_center_x = 850
 _button_top_center_y = 570
 _button_vertical_spacing = 142
+_exit_button_index = len(_menu_items) - 1
 
 
 def init():
@@ -50,8 +51,20 @@ def handle_events():
     for event in get_events():
         if event.type == SDL_QUIT:
             return "quit"
-        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            return "quit"
+        if event.type == SDL_MOUSEBUTTONDOWN and event.button == SDL_BUTTON_LEFT:
+            mouse_y = game_config.SCREEN_HEIGHT - event.y
+            exit_button_y = _button_top_center_y - (
+                _exit_button_index * _button_vertical_spacing
+            )
+            button_left = _button_center_x - _button_width // 2
+            button_right = _button_center_x + _button_width // 2
+            button_bottom = exit_button_y - _button_height // 2
+            button_top = exit_button_y + _button_height // 2
+            if (
+                button_left <= event.x <= button_right
+                and button_bottom <= mouse_y <= button_top
+            ):
+                return "quit"
     return None
 
 
