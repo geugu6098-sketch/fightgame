@@ -7,6 +7,7 @@ import option_mode
 import character_select_mode
 import control_mode
 import select_mode
+import stage_select_mode
 
 
 _next_modes = {
@@ -15,6 +16,7 @@ _next_modes = {
     "options": option_mode,
     "character_select": character_select_mode,
     "controls": control_mode,
+    "stage_select": stage_select_mode,
 }
 
 

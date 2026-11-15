@@ -1,0 +1,55 @@
+from pathlib import Path
+
+from pico2d import SDL_QUIT, get_events, load_image
+
+import game_config
+import menu_ui
+
+
+_stage_select_image = None
+_exit_button_image = None
+_exit_button_font = None
+
+
+def init():
+    global _stage_select_image, _exit_button_image, _exit_button_font
+    image_path = (
+        Path(__file__).resolve().parent
+        / "resources"
+        / "screen"
+        / "main_select.png"
+    )
+    _stage_select_image = load_image(str(image_path))
+    _exit_button_image, _exit_button_font = menu_ui.load_exit_button_assets()
+
+
+def finish():
+    global _stage_select_image, _exit_button_image, _exit_button_font
+    _stage_select_image = None
+    _exit_button_image = None
+    _exit_button_font = None
+
+
+def handle_events():
+    for event in get_events():
+        if event.type == SDL_QUIT:
+            return "quit"
+        if menu_ui.exit_button_clicked(event):
+            return "character_select"
+    return None
+
+
+def draw():
+    if (
+        _stage_select_image is None
+        or _exit_button_image is None
+        or _exit_button_font is None
+    ):
+        raise RuntimeError("Stage select mode has not been initialized.")
+    _stage_select_image.draw(
+        game_config.SCREEN_WIDTH // 2,
+        game_config.SCREEN_HEIGHT // 2,
+        game_config.SCREEN_WIDTH,
+        game_config.SCREEN_HEIGHT,
+    )
+    menu_ui.draw_exit_button(_exit_button_image, _exit_button_font)
