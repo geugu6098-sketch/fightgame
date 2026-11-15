@@ -5,6 +5,7 @@ import game_mode
 import opening_mode
 import option_mode
 import character_select_mode
+import control_mode
 import select_mode
 
 
@@ -13,6 +14,7 @@ _next_modes = {
     "game": game_mode,
     "options": option_mode,
     "character_select": character_select_mode,
+    "controls": control_mode,
 }
 
 

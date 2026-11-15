@@ -35,6 +35,8 @@ def handle_events():
             return "game"
         if clicked_index == 1:
             return "options"
+        if clicked_index == 2:
+            return "controls"
         if clicked_index == len(_menu_items) - 1:
             return "quit"
     return None
