@@ -8,6 +8,7 @@ from pico2d import (
 )
 
 import game_config
+import game_state
 import menu_ui
 
 
@@ -91,6 +92,7 @@ def handle_events():
         if menu_ui.exit_button_clicked(event):
             return "select"
         if _is_first_character_button_clicked(event):
+            game_state.selected_character = "superman"
             return "stage_select"
     return None
 
