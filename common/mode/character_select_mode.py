@@ -35,6 +35,8 @@ def init():
     global _character_select_image, _character_button_image, _superman_logo
     global _exit_button_image, _exit_button_font
     global _first_character_button_hovered
+    game_state.player1_character = None
+    game_state.player2_character = None
     _first_character_button_hovered = False
     image_path = game_config.RESOURCE_DIR / "screen" / "main_select.png"
     _character_select_image = load_image(str(image_path))
@@ -92,8 +94,11 @@ def handle_events():
         if menu_ui.exit_button_clicked(event):
             return "select"
         if _is_first_character_button_clicked(event):
-            game_state.selected_character = "superman"
-            return "stage_select"
+            if game_state.player1_character is None:
+                game_state.player1_character = "superman"
+            elif game_state.player2_character is None:
+                game_state.player2_character = "superman"
+                return "stage_select"
     return None
 
 
