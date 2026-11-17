@@ -1,6 +1,7 @@
 from pico2d import (
     SDL_BUTTON_LEFT,
     SDL_MOUSEBUTTONDOWN,
+    SDL_MOUSEMOTION,
     SDL_QUIT,
     get_events,
     load_image,
@@ -14,6 +15,7 @@ _stage_select_image = None
 _stage_button_image = None
 _exit_button_image = None
 _exit_button_font = None
+_first_stage_button_hovered = False
 
 _stage_button_positions = (
     (230, 470),
@@ -30,6 +32,8 @@ _stage_button_height = 169
 def init():
     global _stage_select_image, _stage_button_image
     global _exit_button_image, _exit_button_font
+    global _first_stage_button_hovered
+    _first_stage_button_hovered = False
     image_path = game_config.RESOURCE_DIR / "screen" / "main_select.png"
     _stage_select_image = load_image(str(image_path))
     button_path = game_config.RESOURCE_DIR / "screen" / "stage_select_button.png"
@@ -40,10 +44,12 @@ def init():
 def finish():
     global _stage_select_image, _stage_button_image
     global _exit_button_image, _exit_button_font
+    global _first_stage_button_hovered
     _stage_select_image = None
     _stage_button_image = None
     _exit_button_image = None
     _exit_button_font = None
+    _first_stage_button_hovered = False
 
 
 def _is_first_stage_button_clicked(event):
@@ -61,9 +67,19 @@ def _is_first_stage_button_clicked(event):
 
 
 def handle_events():
+    global _first_stage_button_hovered
     for event in get_events():
         if event.type == SDL_QUIT:
             return "quit"
+        if event.type == SDL_MOUSEMOTION:
+            x, y = _stage_button_positions[0]
+            _first_stage_button_hovered = menu_ui.point_over_button(
+                event,
+                x,
+                y,
+                _stage_button_width,
+                _stage_button_height,
+            )
         if menu_ui.exit_button_clicked(event):
             return "character_select"
         if _is_first_stage_button_clicked(event):
@@ -92,6 +108,11 @@ def draw():
             _stage_button_width,
             _stage_button_height,
         )
-    x, y = _stage_button_positions[0]
-    _exit_button_font.draw(x - 56, y, "트레이닝 룸", (255, 255, 255))
+    if _first_stage_button_hovered:
+        menu_ui.draw_hover_button(
+            _exit_button_image,
+            _exit_button_font,
+            "트레이닝 룸",
+            112,
+        )
     menu_ui.draw_exit_button(_exit_button_image, _exit_button_font)

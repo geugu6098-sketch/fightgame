@@ -19,6 +19,7 @@ _EXIT_BUTTON_CENTER_Y = (
     game_config.SCREEN_HEIGHT - _EXIT_BUTTON_MARGIN - _EXIT_BUTTON_HEIGHT // 2
 )
 _EXIT_FONT_SIZE = 20
+_HOVER_BUTTON_TOP_MARGIN = 12
 
 
 def load_assets():
@@ -78,6 +79,40 @@ def draw_exit_button(button_image, button_font):
         _EXIT_BUTTON_CENTER_Y,
         "나가기",
         (255, 255, 255),
+    )
+
+
+def draw_hover_button(
+    button_image,
+    button_font,
+    label,
+    label_width,
+):
+    hover_button_x = game_config.SCREEN_WIDTH // 2
+    hover_button_y = (
+        game_config.SCREEN_HEIGHT
+        - _HOVER_BUTTON_TOP_MARGIN
+        - _EXIT_BUTTON_HEIGHT // 2
+    )
+    button_image.draw(
+        hover_button_x,
+        hover_button_y,
+        _EXIT_BUTTON_WIDTH,
+        _EXIT_BUTTON_HEIGHT,
+    )
+    button_font.draw(
+        hover_button_x - label_width // 2,
+        hover_button_y,
+        label,
+        (255, 255, 255),
+    )
+
+
+def point_over_button(event, center_x, center_y, width, height):
+    mouse_y = game_config.SCREEN_HEIGHT - event.y
+    return (
+        center_x - width // 2 <= event.x <= center_x + width // 2
+        and center_y - height // 2 <= mouse_y <= center_y + height // 2
     )
 
 

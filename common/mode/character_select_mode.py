@@ -1,6 +1,7 @@
 from pico2d import (
     SDL_BUTTON_LEFT,
     SDL_MOUSEBUTTONDOWN,
+    SDL_MOUSEMOTION,
     SDL_QUIT,
     get_events,
     load_image,
@@ -15,6 +16,7 @@ _character_button_image = None
 _superman_logo = None
 _exit_button_image = None
 _exit_button_font = None
+_first_character_button_hovered = False
 
 _character_button_positions = (
     (380, 460),
@@ -31,6 +33,8 @@ _superman_logo_size = 150
 def init():
     global _character_select_image, _character_button_image, _superman_logo
     global _exit_button_image, _exit_button_font
+    global _first_character_button_hovered
+    _first_character_button_hovered = False
     image_path = game_config.RESOURCE_DIR / "screen" / "main_select.png"
     _character_select_image = load_image(str(image_path))
     button_path = game_config.RESOURCE_DIR / "screen" / "character_select_button.png"
@@ -48,11 +52,13 @@ def init():
 def finish():
     global _character_select_image, _character_button_image, _superman_logo
     global _exit_button_image, _exit_button_font
+    global _first_character_button_hovered
     _character_select_image = None
     _character_button_image = None
     _superman_logo = None
     _exit_button_image = None
     _exit_button_font = None
+    _first_character_button_hovered = False
 
 
 def _is_first_character_button_clicked(event):
@@ -69,9 +75,19 @@ def _is_first_character_button_clicked(event):
 
 
 def handle_events():
+    global _first_character_button_hovered
     for event in get_events():
         if event.type == SDL_QUIT:
             return "quit"
+        if event.type == SDL_MOUSEMOTION:
+            x, y = _character_button_positions[0]
+            _first_character_button_hovered = menu_ui.point_over_button(
+                event,
+                x,
+                y,
+                _character_button_size,
+                _character_button_size,
+            )
         if menu_ui.exit_button_clicked(event):
             return "select"
         if _is_first_character_button_clicked(event):
@@ -103,4 +119,11 @@ def draw():
         )
     x, y = _character_button_positions[0]
     _superman_logo.draw(x, y, _superman_logo_size, _superman_logo_size)
+    if _first_character_button_hovered:
+        menu_ui.draw_hover_button(
+            _exit_button_image,
+            _exit_button_font,
+            "슈퍼맨",
+            60,
+        )
     menu_ui.draw_exit_button(_exit_button_image, _exit_button_font)
