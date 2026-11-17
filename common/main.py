@@ -9,6 +9,7 @@ from mode import (
     option_mode,
     select_mode,
     stage_select_mode,
+    train_stage_mode,
 )
 
 
@@ -19,6 +20,7 @@ _next_modes = {
     "character_select": character_select_mode,
     "controls": control_mode,
     "stage_select": stage_select_mode,
+    "train_stage": train_stage_mode,
 }
 
 

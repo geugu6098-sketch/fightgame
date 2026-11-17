@@ -1,4 +1,10 @@
-from pico2d import SDL_QUIT, get_events, load_image
+from pico2d import (
+    SDL_BUTTON_LEFT,
+    SDL_MOUSEBUTTONDOWN,
+    SDL_QUIT,
+    get_events,
+    load_image,
+)
 
 import game_config
 import menu_ui
@@ -40,12 +46,28 @@ def finish():
     _exit_button_font = None
 
 
+def _is_first_stage_button_clicked(event):
+    if event.type != SDL_MOUSEBUTTONDOWN or event.button != SDL_BUTTON_LEFT:
+        return False
+
+    x, y = _stage_button_positions[0]
+    mouse_y = game_config.SCREEN_HEIGHT - event.y
+    half_width = _stage_button_width // 2
+    half_height = _stage_button_height // 2
+    return (
+        x - half_width <= event.x <= x + half_width
+        and y - half_height <= mouse_y <= y + half_height
+    )
+
+
 def handle_events():
     for event in get_events():
         if event.type == SDL_QUIT:
             return "quit"
         if menu_ui.exit_button_clicked(event):
             return "character_select"
+        if _is_first_stage_button_clicked(event):
+            return "train_stage"
     return None
 
 
@@ -70,4 +92,6 @@ def draw():
             _stage_button_width,
             _stage_button_height,
         )
+    x, y = _stage_button_positions[0]
+    _exit_button_font.draw(x - 56, y, "트레이닝 룸", (255, 255, 255))
     menu_ui.draw_exit_button(_exit_button_image, _exit_button_font)
