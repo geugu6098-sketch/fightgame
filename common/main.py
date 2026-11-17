@@ -1,13 +1,15 @@
 from pico2d import close_canvas, open_canvas, update_canvas
 
 import game_config
-import game_mode
-import opening_mode
-import option_mode
-import character_select_mode
-import control_mode
-import select_mode
-import stage_select_mode
+from mode import (
+    character_select_mode,
+    control_mode,
+    game_mode,
+    opening_mode,
+    option_mode,
+    select_mode,
+    stage_select_mode,
+)
 
 
 _next_modes = {

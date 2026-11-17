@@ -20,7 +20,7 @@ _prompt_font = None
 
 def init():
     global _opening_image, _prompt_font
-    image_path = Path(__file__).resolve().parent / "resources" / "screen" / "opening.png"
+    image_path = game_config.RESOURCE_DIR / "screen" / "opening.png"
     _opening_image = load_image(str(image_path))
     font_path = Path(os.environ["WINDIR"]) / "Fonts" / "arial.ttf"
     _prompt_font = load_font(str(font_path), 28)

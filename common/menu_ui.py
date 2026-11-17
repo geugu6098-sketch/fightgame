@@ -22,7 +22,7 @@ _EXIT_FONT_SIZE = 20
 
 
 def load_assets():
-    screen_path = Path(__file__).resolve().parent / "resources" / "screen"
+    screen_path = game_config.RESOURCE_DIR / "screen"
     font_path = Path(os.environ["WINDIR"]) / "Fonts" / "malgunbd.ttf"
     return (
         load_image(str(screen_path / "mod_select.png")),
@@ -32,7 +32,7 @@ def load_assets():
 
 
 def load_exit_button_assets():
-    screen_path = Path(__file__).resolve().parent / "resources" / "screen"
+    screen_path = game_config.RESOURCE_DIR / "screen"
     font_path = Path(os.environ["WINDIR"]) / "Fonts" / "malgunbd.ttf"
     return (
         load_image(str(screen_path / "button.png")),

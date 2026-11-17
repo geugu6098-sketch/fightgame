@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from pico2d import SDL_QUIT, get_events, load_image
 
 import game_config
@@ -26,19 +24,9 @@ _stage_button_height = 169
 def init():
     global _stage_select_image, _stage_button_image
     global _exit_button_image, _exit_button_font
-    image_path = (
-        Path(__file__).resolve().parent
-        / "resources"
-        / "screen"
-        / "main_select.png"
-    )
+    image_path = game_config.RESOURCE_DIR / "screen" / "main_select.png"
     _stage_select_image = load_image(str(image_path))
-    button_path = (
-        Path(__file__).resolve().parent
-        / "resources"
-        / "screen"
-        / "stage_select_button.png"
-    )
+    button_path = game_config.RESOURCE_DIR / "screen" / "stage_select_button.png"
     _stage_button_image = load_image(str(button_path))
     _exit_button_image, _exit_button_font = menu_ui.load_exit_button_assets()
 

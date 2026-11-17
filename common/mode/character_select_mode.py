@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from pico2d import (
     SDL_BUTTON_LEFT,
     SDL_MOUSEBUTTONDOWN,
@@ -33,23 +31,12 @@ _superman_logo_size = 150
 def init():
     global _character_select_image, _character_button_image, _superman_logo
     global _exit_button_image, _exit_button_font
-    image_path = (
-        Path(__file__).resolve().parent
-        / "resources"
-        / "screen"
-        / "main_select.png"
-    )
+    image_path = game_config.RESOURCE_DIR / "screen" / "main_select.png"
     _character_select_image = load_image(str(image_path))
-    button_path = (
-        Path(__file__).resolve().parent
-        / "resources"
-        / "screen"
-        / "character_select_button.png"
-    )
+    button_path = game_config.RESOURCE_DIR / "screen" / "character_select_button.png"
     _character_button_image = load_image(str(button_path))
     logo_path = (
-        Path(__file__).resolve().parent
-        / "resources"
+        game_config.RESOURCE_DIR
         / "character"
         / "superman"
         / "superman_logo.png"
